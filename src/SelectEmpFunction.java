@@ -21,7 +21,6 @@ public class SelectEmpFunction {
         return resList; // 即使没有匹配的员工，返回空列表而不是 null
     }
 
-
     public static ArrayList<Employee> ByNameAndDept(String name, String dept) {
         ArrayList<Employee> EmpList = (ArrayList<Employee>) deserializeEmployee("D:\\Project\\Java\\termFinal\\EmployeeInfo");
         if (EmpList == null) {
@@ -36,13 +35,15 @@ public class SelectEmpFunction {
         return resList;
     }
 
-    public static ArrayList<Employee> calculateAveSalaryGroupByDept() {
+    public static void calculateAveSalaryGroupByDept() {
         List<Employee> EmpList = deserializeEmployee("D:\\Project\\Java\\termFinal\\EmployeeInfo");
         Map<String, Double> salaryInfo = new HashMap<>();
-        for(Employee employee : EmpList) {
-            salaryInfo.put(employee.getDept(), salaryInfo.getOrDefault(employee.getSalary(), 0.0) + 1);
+        for (Employee employee : EmpList) {
+            salaryInfo.put(employee.getDept(), addAndCalculateAve(EmpList, employee.getDept()));
         }
-        return null;
+        for (Map.Entry<String, Double> entry : salaryInfo.entrySet()) {
+            System.out.println(entry.getKey() + "部门的平均工资: " + entry.getValue() + "¥");
+        }
     }
 
     public static List<Employee> deserializeEmployee(String filename) {
@@ -58,13 +59,29 @@ public class SelectEmpFunction {
         return new ArrayList<>(); // 如果反序列化失败，返回空列表
     }
 
-
     // 将更新后的 ArrayList 写回文件
     public static void serializeEmployee(List<Employee> employees, String filename) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
             out.writeObject(employees);  // 将 ArrayList<Employee> 序列化写入文件
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static double addAndCalculateAve(List<Employee> EmpList, String Dept) {
+        double totalSalary = 0.00;
+        int count = 0;
+        for (Employee employee : EmpList) {
+            if (employee.getDept().equals(Dept)) {
+                totalSalary  += employee.getSalary();
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("占无该部分");
+            return 0.00;
+        } else {
+            return totalSalary / (double) count;
         }
     }
 }

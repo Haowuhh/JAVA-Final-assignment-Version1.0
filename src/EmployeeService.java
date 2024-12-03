@@ -42,7 +42,7 @@ public class EmployeeService {
                 System.out.println(SelectEmpFunction.ByNameAndDept(scanner.next(), scanner.next()));
                 break;
             case 3:
-                System.out.println(SelectEmpFunction.calculateAveSalaryGroupByDept());
+                SelectEmpFunction.calculateAveSalaryGroupByDept();
             default:
                 break;
         }
@@ -87,7 +87,6 @@ public class EmployeeService {
         SelectEmpFunction.serializeEmployee(EmpList, "D:\\Project\\Java\\termFinal\\EmployeeInfo");
     }
 
-
     public static void deleteEmployeeByWno(String Wno) {
         // 1. 反序列化文件中的 ArrayList
         ArrayList<Employee> employees = (ArrayList<Employee>) SelectEmpFunction.deserializeEmployee("D:\\Project\\Java\\termFinal\\EmployeeInfo");
@@ -112,7 +111,5 @@ public class EmployeeService {
         // 4. 重新序列化保存修改后的 ArrayList
         SelectEmpFunction.serializeEmployee(employees, "D:\\Project\\Java\\termFinal\\EmployeeInfo");
     }
-
-
 
 }
